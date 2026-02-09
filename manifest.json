@@ -1,6 +1,6 @@
 {
     "name": "Angus Weather",
-    "short_name": "Angus 天氣",
+    "short_name": "Weather",
     "description": "專業級即時氣象 PWA",
     "start_url": "./index.html",
     "display": "standalone",
@@ -9,13 +9,13 @@
     "orientation": "portrait-primary",
     "icons": [
         {
-            "src": "https://cdn-icons-png.flaticon.com/512/4052/4052984.png",
+            "src": "./assets/weather_icon_192.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any maskable"
         },
         {
-            "src": "https://cdn-icons-png.flaticon.com/512/4052/4052984.png",
+            "src": "./assets/weather_icon_512.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any maskable"
