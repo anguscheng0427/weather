@@ -58,6 +58,17 @@
         .animate-spin-once {
             animation: spin-once 0.7s ease-in-out;
         }
+
+        /* Toast 動畫 */
+        .toast-enter {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        .toast-enter-active {
+            transform: translateY(0);
+            opacity: 1;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
     </style>
 </head>
 <body class="relative transition-colors duration-700 font-sans" id="body-bg">
@@ -84,22 +95,21 @@
             </div>
 
             <div class="flex gap-2">
+                <!-- 星星按鈕 (我的最愛) -->
                 <button onclick="toggleFavorites()" class="p-2 rounded-full hover:bg-white/10 transition backdrop-blur-sm" aria-label="加入最愛">
-                    <svg id="fav-icon" class="w-6 h-6 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    <svg id="fav-icon" class="w-6 h-6 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <!-- 預設空心星 -->
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                    </svg>
                 </button>
-                <button onclick="refreshWeather(this)" class="p-2 rounded-full hover:bg-white/10 transition backdrop-blur-sm" aria-label="重新整理">
-                    <svg class="w-6 h-6 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                <!-- 搜尋按鈕 (取代 Refresh) -->
+                <button onclick="openSearchModal()" class="p-2 rounded-full hover:bg-white/10 transition backdrop-blur-sm" aria-label="搜尋">
+                    <svg class="w-6 h-6 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </button>
             </div>
         </nav>
 
         <!-- Quick Bar (Nav Extension) -->
-        <!-- 
-            調整說明：
-            1. top-[60px] -> 維持定位
-            2. pt-4: 增加膠囊上方的空間，不要跟標題太近
-            3. pb-2: 減少下方空間，讓延伸高度更緊湊
-        -->
         <div id="quick-bar" class="absolute top-[60px] left-0 w-full z-40 transition-all duration-300 transform -translate-y-2 opacity-0 pointer-events-none px-6 pt-4 pb-2">
              <div id="quick-bar-list" class="flex flex-nowrap gap-2 items-center overflow-x-auto no-scrollbar pb-1"></div>
         </div>
@@ -125,10 +135,9 @@
             </div>
         </section>
 
-        <!-- 2. 生活氣象摘要 (Integrated Card) -->
+        <!-- 2. 生活氣象摘要 -->
         <section class="mb-6">
             <div class="glass-panel rounded-3xl p-5 shadow-lg border-t border-white/20">
-                <!-- 標題與文字摘要 -->
                 <div class="mb-5 pb-4 border-b border-white/10">
                     <h3 class="text-xs font-bold opacity-50 uppercase mb-2 flex items-center gap-1">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -139,9 +148,7 @@
                     </p>
                 </div>
 
-                <!-- 資訊 Grid (穿衣 & 降雨) -->
                 <div class="grid grid-cols-2 gap-4">
-                    <!-- 左：穿衣 -->
                     <div class="flex items-center gap-3">
                         <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-3xl shadow-inner flex-shrink-0" id="clothing-icon">
                             👕
@@ -152,7 +159,6 @@
                         </div>
                     </div>
 
-                    <!-- 右：降雨 (動態切換) -->
                     <div id="rain-section-container" class="flex justify-center items-center h-[50px]">
                         <div class="w-full h-full flex flex-col justify-center">
                              <div class="w-full h-6 skeleton rounded-full"></div>
@@ -178,7 +184,7 @@
             </div>
         </section>
 
-        <!-- 4. 未來 7 天預報 -->
+        <!-- 4. 未來預報 -->
         <section class="mb-6">
             <div class="glass-panel rounded-3xl p-5 flex flex-col gap-1">
                 <h3 class="text-xs font-bold opacity-50 uppercase mb-2 px-1 flex items-center gap-2">
@@ -213,12 +219,6 @@
                             <div id="pm25-bar" class="h-full bg-green-400 w-0 transition-all duration-1000"></div>
                         </div>
                     </div>
-                    <div>
-                        <div class="flex justify-between text-xs opacity-70 mb-1"><span>PM10</span><span id="pm10-val">--</span></div>
-                        <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                            <div id="pm10-bar" class="h-full bg-blue-400 w-0 transition-all duration-1000"></div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -247,10 +247,18 @@
         </section>
 
         <footer class="text-center opacity-40 text-xs flex flex-col gap-1 pb-4">
-            <span>Data by Open-Meteo • Angus Weather v15.0</span>
+            <span>Data by Open-Meteo • Angus Weather v17.0</span>
             <span id="last-updated">--</span>
         </footer>
     </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-full transition-all duration-300">
+        <div class="bg-gray-900/90 backdrop-blur-md text-white px-5 py-2.5 rounded-full shadow-2xl border border-white/10 flex items-center gap-2">
+            <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <span class="text-sm font-bold tracking-wide">已更新最新氣象</span>
+        </div>
+    </div>
 
     <!-- 搜尋 Modal -->
     <div id="search-modal" class="fixed inset-0 bg-[#0f172a]/95 backdrop-blur-xl z-50 hidden opacity-0 transition-all duration-300 flex flex-col">
@@ -280,13 +288,24 @@
             saved: JSON.parse(localStorage.getItem('zenweather_saved')) || []
         };
 
+        // 啟動邏輯：檢查是否為「自動定位模式」
         document.addEventListener('DOMContentLoaded', () => {
             renderQuickBarList();
-            const lastLoc = JSON.parse(localStorage.getItem('zenweather_last_loc'));
-            if (lastLoc && lastLoc.name && lastLoc.name !== 'undefined') {
-                changeLocation(lastLoc.lat, lastLoc.lon, lastLoc.name);
-            } else {
+            
+            // 檢查使用者最後一次是否使用「定位」功能
+            const useAuto = localStorage.getItem('zenweather_use_auto') === 'true';
+            
+            if (useAuto) {
+                // 如果是自動模式，每次開啟都重新定位
                 useCurrentLocation();
+            } else {
+                // 如果是固定模式，讀取上次的地點
+                const lastLoc = JSON.parse(localStorage.getItem('zenweather_last_loc'));
+                if (lastLoc && lastLoc.name && lastLoc.name !== 'undefined') {
+                    changeLocation(lastLoc.lat, lastLoc.lon, lastLoc.name, false);
+                } else {
+                    useCurrentLocation(); // 沒資料就預設定位
+                }
             }
         });
 
@@ -298,12 +317,8 @@
             const isHidden = bar.classList.contains('opacity-0');
             
             if (isHidden) {
-                // 展開
                 bar.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-2');
                 arrow.classList.add('rotate-180');
-                
-                // 計算延伸高度: 基礎約70 + 膠囊內容高度 + 增加的Padding
-                // 調整為 130px，配合加大的 padding 和按鈕，不會有太多下方空白
                 bg.style.height = '130px'; 
                 bg.classList.remove('border-white/5');
                 renderQuickBarList();
@@ -329,28 +344,26 @@
             const list = document.getElementById('quick-bar-list');
             list.innerHTML = '';
             
-            // 膠囊樣式調整：text-sm (原本xs), px-4 py-2 (原本px-3 py-1.5) -> 加大觸控區
+            // 1. 定位按鈕 (固定存在)
             const gpsBtn = document.createElement('button');
             gpsBtn.className = 'flex-shrink-0 px-4 py-2 rounded-full text-sm font-bold transition bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 flex items-center gap-1 shadow-sm';
             gpsBtn.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> 定位';
             gpsBtn.onclick = () => { useCurrentLocation(); closeQuickBar(); };
             list.appendChild(gpsBtn);
 
+            // 2. 我的最愛列表
             appState.saved.forEach(p => {
                 const isActive = p.name === appState.name;
                 const activeClass = isActive ? 'bg-white text-blue-900 font-bold shadow-md' : 'bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/10';
                 const btn = document.createElement('button');
                 btn.className = `flex-shrink-0 px-4 py-2 rounded-full text-sm transition ${activeClass}`;
                 btn.innerText = p.name;
-                btn.onclick = () => { changeLocation(p.lat, p.lon, p.name); closeQuickBar(); };
+                // 點擊已儲存地點 -> 視為手動模式 (isAuto = false)
+                btn.onclick = () => { changeLocation(p.lat, p.lon, p.name, false); closeQuickBar(); };
                 list.appendChild(btn);
             });
 
-            const searchBtn = document.createElement('button');
-            searchBtn.className = 'flex-shrink-0 px-4 py-2 rounded-full text-sm font-bold transition bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 flex items-center gap-1';
-            searchBtn.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg> 搜尋';
-            searchBtn.onclick = openSearchModal;
-            list.appendChild(searchBtn);
+            // 移除原本的搜尋按鈕
         }
 
         function openSearchModal() {
@@ -371,17 +384,88 @@
             }, 300);
         }
 
-        // --- 恢復原始的快速刷新邏輯 ---
-        function refreshWeather(btn) {
-            // 只保留按鈕旋轉動畫，不清除介面
-            if(btn) {
-                btn.classList.add('animate-spin-once');
-                setTimeout(() => btn.classList.remove('animate-spin-once'), 700);
-            }
-            fetchWeatherData(appState.lat, appState.lon);
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('opacity-0', 'translate-y-full');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-full');
+            }, 2500);
         }
 
-        // --- 數據邏輯 ---
+        // --- 核心功能：變更地點 ---
+        // isAuto: 用來標記這次變更是來自「自動定位」還是「手動選擇」
+        function changeLocation(lat, lon, name, isAuto = false) {
+            appState.lat = lat;
+            appState.lon = lon;
+            appState.name = name || '未知地點';
+            
+            // 記住模式
+            localStorage.setItem('zenweather_use_auto', isAuto ? 'true' : 'false');
+            
+            // 如果是手動模式，才更新 last_loc (自動模式不需要存死座標，因為下次會重抓)
+            if (!isAuto) {
+                localStorage.setItem('zenweather_last_loc', JSON.stringify({ lat, lon, name: appState.name }));
+            }
+
+            document.getElementById('nav-location').innerText = appState.name;
+            updateFavIcon();
+            
+            // 視覺歸零 & 抓取
+            resetUIForRefresh();
+            fetchWeatherData(lat, lon).then(() => showToast());
+        }
+
+        function resetUIForRefresh() {
+            document.getElementById('current-temp').innerText = "--";
+            document.getElementById('current-condition').innerText = "載入中...";
+            document.getElementById('weather-icon').innerText = "⏳";
+            document.getElementById('smart-summary-text').innerText = "正在更新數據...";
+            document.getElementById('smart-summary-text').classList.add('opacity-50');
+        }
+
+        // --- 核心功能：自動定位 (含逆向地理編碼) ---
+        function useCurrentLocation() {
+            closeQuickBar();
+            document.getElementById('nav-location').innerText = '定位中...';
+            
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    async pos => {
+                        const lat = pos.coords.latitude;
+                        const lon = pos.coords.longitude;
+                        
+                        // 嘗試取得真實地名 (Reverse Geocoding)
+                        let locationName = "我的位置";
+                        try {
+                            // 使用 BigDataCloud 免費 API (通常比 OpenMeteo 的好用且無需 key)
+                            const r = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=zh`);
+                            const data = await r.json();
+                            // 優先順序：區 > 市 > 行政區
+                            locationName = data.locality || data.city || data.principalSubdivision || "我的位置";
+                        } catch(e) {
+                            console.log("Reverse geo failed", e);
+                        }
+
+                        // 呼叫變更地點，並標記為自動模式 (true)
+                        changeLocation(lat, lon, locationName, true);
+                    },
+                    err => { 
+                        let msg = '無法取得定位';
+                        if (err.code === 1) msg = '請允許瀏覽器定位權限';
+                        else if (err.code === 2) msg = '無法偵測位置 (請確認 GPS/Wi-Fi)';
+                        alert(msg);
+                        // 定位失敗，切回預設台北 (手動模式)
+                        changeLocation(25.0330, 121.5654, "台北市 (預設)", false); 
+                    },
+                    { enableHighAccuracy: true, timeout: 10000 }
+                );
+            } else {
+                alert('瀏覽器不支援定位');
+                changeLocation(25.0330, 121.5654, "台北市 (預設)", false);
+            }
+        }
+
+        // --- 數據與 UI 更新 ---
         async function fetchWeatherData(lat, lon) {
             try {
                 const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure,visibility&hourly=temperature_2m,weather_code,precipitation_probability,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max&timezone=auto&forecast_days=7&past_days=1`;
@@ -394,10 +478,8 @@
                 if (resA && resA.ok) dataA = await resA.json();
 
                 updateUI(dataW, dataA);
-                localStorage.setItem('zenweather_last_loc', JSON.stringify({ lat, lon, name: appState.name }));
                 const now = new Date();
                 document.getElementById('last-updated').innerText = `更新於 ${now.toLocaleTimeString('zh-TW', {hour: '2-digit', minute:'2-digit', hour12: false})}`;
-                updateFavIcon();
             } catch (err) {
                 console.error("Fetch Error:", err);
                 document.getElementById('current-condition').innerText = "連線失敗";
@@ -424,7 +506,6 @@
                 if (nowIdx === -1) nowIdx = 0; 
             }
 
-            // 更新整合式卡片
             updateLifeDashboard(current, hourly, daily, nowIdx);
 
             document.getElementById('current-temp').innerText = Math.round(current.temperature_2m);
@@ -454,13 +535,8 @@
             document.getElementById('aqi-status').innerText = getAQIDesc(aqi);
 
             const pm25 = air.pm2_5 ?? 0;
-            const pm10 = air.pm10 ?? 0;
-            document.getElementById('pm25-val').innerText = pm25 || '--';
-            document.getElementById('pm10-val').innerText = pm10 || '--';
-            
             setTimeout(() => {
                 document.getElementById('pm25-bar').style.width = Math.min((pm25 / 75) * 100, 100) + '%';
-                document.getElementById('pm10-bar').style.width = Math.min((pm10 / 150) * 100, 100) + '%';
             }, 100);
 
             document.getElementById('humidity-val').innerText = current.relative_humidity_2m + '%';
@@ -477,11 +553,9 @@
             renderDailyForecast(daily);
         }
 
-        // --- 核心：生活儀表板整合 (含新版降雨 UI) ---
         function updateLifeDashboard(current, hourly, daily, nowIdx) {
-            // 1. 文字摘要
             const summaryEl = document.getElementById('smart-summary-text');
-            // 移除了 v14 的 remove animate-pulse，因為已經不需要 loading 狀態了
+            summaryEl.classList.remove('opacity-50');
 
             if(!daily.temperature_2m_max || daily.temperature_2m_max.length < 3) {
                  summaryEl.innerText = "資料不足...";
@@ -509,7 +583,6 @@
                 else text = `明天氣溫持平`;
             }
 
-            // 補充天氣警示
             const code = current.weather_code;
             if (code >= 95) text = "⛈️ 雷雨警報！" + text;
             else if (code >= 61) text = "🌧️ 外面有雨，" + text;
@@ -520,7 +593,6 @@
             summaryEl.innerText = text;
             summaryEl.classList.remove('opacity-0');
 
-            // 2. 穿衣建議
             const feel = current.apparent_temperature;
             const clothIconEl = document.getElementById('clothing-icon');
             const clothTextEl = document.getElementById('clothing-text');
@@ -536,12 +608,10 @@
             clothIconEl.innerText = cIcon;
             clothTextEl.innerText = cText;
 
-            // 3. 降雨顯示 (邏輯更新)
             const rainContainer = document.getElementById('rain-section-container');
             let hasRain = false;
             let firstRain = -1;
 
-            // 檢查未來12小時有無降雨
             for(let i=0; i<12; i++) {
                 let idx = nowIdx + i;
                 if(idx >= hourly.precipitation_probability.length) break;
@@ -553,7 +623,6 @@
             }
 
             if (!hasRain) {
-                // 無雨：顯示圖示模式 (與穿衣建議對稱)
                 rainContainer.innerHTML = `
                     <div class="flex items-center gap-3">
                         <div class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-3xl shadow-inner flex-shrink-0 text-blue-200">
@@ -566,7 +635,6 @@
                     </div>
                 `;
             } else {
-                // 有雨：顯示時間軸模式
                 let statusText = firstRain === 0 ? "目前有雨" : `${firstRain}h 後有雨`;
                 let barsHtml = '';
                 
@@ -593,6 +661,7 @@
             }
         }
 
+        // --- 共用圖表與 Helper (保持不變) ---
         function renderSyncChart(hourly, startIdx) {
             const chartLayer = document.getElementById('chart-layer');
             const listLayer = document.getElementById('hourly-list');
@@ -702,7 +771,6 @@
                 const min = Math.round(daily.temperature_2m_min[i]);
                 const wInfo = getWeatherCodeInfo(daily.weather_code[i], 1); 
                 const rainProb = daily.precipitation_probability_max[i] ?? 0;
-                const opacityClass = i === 0 ? "opacity-50" : "";
                 
                 const rainBadge = rainProb >= 30 
                     ? `<div class="flex items-center gap-1 text-blue-200 bg-blue-600/30 border border-blue-400/20 px-2 py-0.5 rounded-md text-xs font-bold">
@@ -712,7 +780,7 @@
                     : `<span class="text-xs opacity-30">${rainProb}%</span>`;
 
                 const row = document.createElement('div');
-                row.className = `flex justify-between items-center py-3 border-b border-white/5 last:border-0 hover:bg-white/5 px-2 rounded-lg transition ${opacityClass}`;
+                row.className = `flex justify-between items-center py-3 border-b border-white/5 last:border-0 hover:bg-white/5 px-2 rounded-lg transition ${i===0?'opacity-50':''}`;
                 row.innerHTML = `
                     <span class="w-16 font-medium text-sm">${dayName}</span>
                     <div class="flex items-center gap-3 flex-1 justify-start pl-2">
@@ -824,8 +892,9 @@
                             </div>
                             <span class="text-blue-400 text-sm">選擇</span>
                         `;
+                        // 點擊搜尋結果 -> 視為手動模式 (isAuto = false)
                         div.onclick = () => {
-                            changeLocation(p.latitude, p.longitude, p.name);
+                            changeLocation(p.latitude, p.longitude, p.name, false);
                             closeSearchModal();
                         };
                         resDiv.appendChild(div);
@@ -833,44 +902,6 @@
                 }
             } catch(e) {
                 resDiv.innerHTML = '<div class="text-white/50 text-center mt-10">搜尋失敗</div>';
-            }
-        }
-
-        function changeLocation(lat, lon, name) {
-            appState.lat = lat;
-            appState.lon = lon;
-            appState.name = name || '未知地點';
-            document.getElementById('nav-location').innerText = appState.name;
-            updateFavIcon();
-            // 在這裡也呼叫 refreshWeather 而不是直接 fetch，這樣換地點也有 Loading 感
-            refreshWeather(); 
-        }
-
-        function useCurrentLocation() {
-            closeQuickBar();
-            document.getElementById('nav-location').innerText = '定位中...';
-            
-            const options = {
-                enableHighAccuracy: true,
-                timeout: 10000,
-                maximumAge: 0
-            };
-
-            if(navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    pos => changeLocation(pos.coords.latitude, pos.coords.longitude, "我的位置"),
-                    err => { 
-                        let msg = '無法取得定位';
-                        if (err.code === 1) msg = '請允許瀏覽器定位權限';
-                        else if (err.code === 2) msg = '無法偵測位置 (請確認 GPS/Wi-Fi)';
-                        alert(msg + "\n(為了隱私，瀏覽器要求必須在安全連線下才能定位)");
-                        changeLocation(25.0330, 121.5654, "台北市 (預設)"); 
-                    },
-                    options
-                );
-            } else {
-                alert('瀏覽器不支援定位');
-                changeLocation(25.0330, 121.5654, "台北市 (預設)");
             }
         }
 
@@ -889,12 +920,13 @@
         function updateFavIcon() {
             const isSaved = appState.saved.some(s => s.name === appState.name);
             const icon = document.getElementById('fav-icon');
+            // 星星圖標：實心 vs 空心
             if (isSaved) {
-                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" fill="currentColor"></path>';
-                icon.classList.add('text-red-400');
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" fill="currentColor"></path>';
+                icon.classList.add('text-yellow-400'); // 黃色星星
             } else {
-                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>';
-                icon.classList.remove('text-red-400');
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>';
+                icon.classList.remove('text-yellow-400');
             }
         }
 
