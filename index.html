@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ZenWeather Ultra</title>
-    <meta name="description" content="終極版氣象 PWA：生活整合版">
+    <title>Angus Weather</title>
+    <meta name="description" content="天氣不是數據，而是生活！ 我們提供最直覺的生活化資訊摘要，讓你出門前一秒掌握天氣重點，輕鬆規劃每一天！">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -86,14 +86,14 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
                     </svg>
                 </button>
-                <!-- 搜尋按鈕 (取代 Refresh) -->
+                <!-- 搜尋按鈕 -->
                 <button onclick="openSearchModal()" class="p-2 rounded-full hover:bg-white/10 transition backdrop-blur-sm" aria-label="搜尋">
                     <svg class="w-6 h-6 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </button>
             </div>
         </nav>
 
-        <!-- Quick Bar (Nav Extension) -->
+        <!-- Quick Bar -->
         <div id="quick-bar" class="absolute top-[60px] left-0 w-full z-40 transition-all duration-300 transform -translate-y-2 opacity-0 pointer-events-none px-6 pt-4 pb-2">
              <div id="quick-bar-list" class="flex flex-nowrap gap-2 items-center overflow-x-auto no-scrollbar pb-1"></div>
         </div>
@@ -104,7 +104,9 @@
         <!-- 1. 當前天氣 -->
         <section class="flex flex-col items-center py-6 relative" onclick="closeQuickBar()">
             <div class="flex items-start justify-center gap-4 mt-2">
-                <div class="text-[7rem] leading-none font-thin tracking-tighter drop-shadow-2xl min-w-[140px] text-center" id="current-temp">--</div>
+                <div class="text-[7rem] leading-none font-thin tracking-tighter drop-shadow-2xl min-w-[140px] text-center flex justify-center" id="current-temp-container">
+                    <span id="current-temp">--</span><span class="text-[4rem] opacity-80">°</span>
+                </div>
                 <div class="flex flex-col pt-4 gap-1 items-center">
                     <span class="text-4xl filter drop-shadow-lg min-h-[40px]" id="weather-icon">⏳</span>
                     <span class="text-xl font-medium opacity-90 drop-shadow-md min-h-[28px]" id="current-condition">--</span>
@@ -152,17 +154,17 @@
             </div>
         </section>
 
-        <!-- 3. 24小時趨勢 (Rain bar fixed) -->
+        <!-- 3. 24小時趨勢 -->
         <section class="mb-6">
             <div class="glass-panel rounded-3xl p-5 overflow-hidden">
                 <h3 class="text-xs font-bold opacity-50 uppercase mb-4 flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     24小時趨勢
                 </h3>
-                <div class="overflow-x-auto no-scrollbar relative w-full" id="forecast-scroll-view">
-                    <div id="forecast-inner-wrapper" class="relative min-w-full h-56">
-                        <div class="absolute top-0 left-0 w-full h-[100px] z-0 pointer-events-none" id="chart-layer"></div>
-                        <div class="absolute top-[100px] left-0 w-full flex z-10 items-start" id="hourly-list"></div>
+                <div class="overflow-x-auto no-scrollbar relative w-full overflow-y-hidden" id="forecast-scroll-view">
+                    <div id="forecast-inner-wrapper" class="relative min-w-full h-64"> 
+                        <div class="absolute top-0 left-0 w-full h-[120px] z-0 pointer-events-none" id="chart-layer"></div>
+                        <div class="absolute top-[120px] left-0 w-full flex z-10 items-start" id="hourly-list"></div>
                     </div>
                 </div>
             </div>
@@ -231,12 +233,12 @@
         </section>
 
         <footer class="text-center opacity-40 text-xs flex flex-col gap-1 pb-4">
-            <span>Data by Open-Meteo • Angus Weather v18.0</span>
+            <span>Data by Open-Meteo • Angus Weather v19.0</span>
             <span id="last-updated">--</span>
         </footer>
     </main>
 
-    <!-- Toast Notification -->
+    <!-- Toast -->
     <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-full transition-all duration-300">
         <div class="bg-gray-900/90 backdrop-blur-md text-white px-5 py-2.5 rounded-full shadow-2xl border border-white/10 flex items-center gap-2">
             <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -244,7 +246,7 @@
         </div>
     </div>
 
-    <!-- 搜尋 Modal -->
+    <!-- Search Modal -->
     <div id="search-modal" class="fixed inset-0 bg-[#0f172a]/95 backdrop-blur-xl z-50 hidden opacity-0 transition-all duration-300 flex flex-col">
         <div class="p-6 pt-12">
             <div class="flex justify-between items-center mb-6">
@@ -254,7 +256,7 @@
                 </button>
             </div>
             <div class="relative">
-                <input type="text" id="search-input" placeholder="輸入城市名稱 (例如: 台北市/Taipei)" 
+                <input type="text" id="search-input" placeholder="輸入城市名稱 (例如: 台中)" 
                     class="w-full bg-white/5 border border-white/10 text-white p-4 pl-12 rounded-2xl outline-none focus:border-blue-500 transition placeholder-gray-500 text-lg">
                 <button onclick="performSearch()" class="absolute right-3 top-3 bg-blue-600 px-4 py-1.5 rounded-xl text-sm font-bold shadow-lg shadow-blue-600/30">搜尋</button>
             </div>
@@ -272,23 +274,18 @@
             saved: JSON.parse(localStorage.getItem('zenweather_saved')) || []
         };
 
-        // 啟動邏輯：檢查是否為「自動定位模式」
         document.addEventListener('DOMContentLoaded', () => {
             renderQuickBarList();
-            
-            // 檢查使用者最後一次是否使用「定位」功能
             const useAuto = localStorage.getItem('zenweather_use_auto') === 'true';
             
             if (useAuto) {
-                // 如果是自動模式，每次開啟都重新定位
                 useCurrentLocation();
             } else {
-                // 如果是固定模式，讀取上次的地點
                 const lastLoc = JSON.parse(localStorage.getItem('zenweather_last_loc'));
                 if (lastLoc && lastLoc.name && lastLoc.name !== 'undefined') {
                     changeLocation(lastLoc.lat, lastLoc.lon, lastLoc.name, false);
                 } else {
-                    useCurrentLocation(); // 沒資料就預設定位
+                    useCurrentLocation();
                 }
             }
         });
@@ -329,8 +326,6 @@
             list.innerHTML = '';
             
             const useAuto = localStorage.getItem('zenweather_use_auto') === 'true';
-            
-            // 1. 定位按鈕 (根據 useAuto 決定樣式)
             const activeClass = 'bg-white text-blue-900 font-bold shadow-md';
             const inactiveClass = 'bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/10';
             
@@ -340,9 +335,8 @@
             gpsBtn.onclick = () => { useCurrentLocation(); closeQuickBar(); };
             list.appendChild(gpsBtn);
 
-            // 2. 我的最愛列表
             appState.saved.forEach(p => {
-                const isActive = p.name === appState.name && !useAuto; // 只有在非自動模式下且名字相符才算 active
+                const isActive = p.name === appState.name && !useAuto; 
                 const btnClass = isActive ? activeClass : inactiveClass;
                 const btn = document.createElement('button');
                 btn.className = `flex-shrink-0 px-4 py-2 rounded-full text-sm transition ${btnClass}`;
@@ -378,7 +372,6 @@
             }, 2500);
         }
 
-        // --- 核心功能：變更地點 ---
         function changeLocation(lat, lon, name, isAuto = false) {
             appState.lat = lat;
             appState.lon = lon;
@@ -390,13 +383,10 @@
                 localStorage.setItem('zenweather_last_loc', JSON.stringify({ lat, lon, name: appState.name }));
             }
 
-            // 更新標題 (如果是定位模式，加上括號)
             const displayName = appState.name + (isAuto ? ' (定位)' : '');
             document.getElementById('nav-location').innerText = displayName;
             
             updateFavIcon();
-            
-            // 視覺歸零 & 抓取
             resetUIForRefresh();
             fetchWeatherData(lat, lon).then(() => showToast());
         }
@@ -409,7 +399,6 @@
             document.getElementById('smart-summary-text').classList.add('opacity-50');
         }
 
-        // --- 核心功能：自動定位 (含逆向地理編碼) ---
         function useCurrentLocation() {
             closeQuickBar();
             document.getElementById('nav-location').innerText = '定位中...';
@@ -432,10 +421,7 @@
                         changeLocation(lat, lon, locationName, true);
                     },
                     err => { 
-                        let msg = '無法取得定位';
-                        if (err.code === 1) msg = '請允許瀏覽器定位權限';
-                        else if (err.code === 2) msg = '無法偵測位置 (請確認 GPS/Wi-Fi)';
-                        alert(msg);
+                        alert('無法取得定位，請確認權限');
                         changeLocation(25.0330, 121.5654, "台北市 (預設)", false); 
                     },
                     { enableHighAccuracy: true, timeout: 10000 }
@@ -446,9 +432,9 @@
             }
         }
 
-        // --- 數據與 UI 更新 ---
         async function fetchWeatherData(lat, lon) {
             try {
+                // 修正：移除 current 中的 time 參數，避免 API 錯誤
                 const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure,visibility&hourly=temperature_2m,weather_code,precipitation_probability,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max&timezone=auto&forecast_days=7&past_days=1`;
                 const airUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=us_aqi,pm10,pm2_5&timezone=auto`;
 
@@ -459,8 +445,16 @@
                 if (resA && resA.ok) dataA = await resA.json();
 
                 updateUI(dataW, dataA);
-                const now = new Date();
-                document.getElementById('last-updated').innerText = `更新於 ${now.toLocaleTimeString('zh-TW', {hour: '2-digit', minute:'2-digit', hour12: false})}`;
+                
+                // 使用 API 回傳的 time 欄位 (Open-Meteo 預設回傳)
+                const localTimeStr = dataW.current.time; 
+                if(localTimeStr) {
+                    const timePart = localTimeStr.split('T')[1];
+                    document.getElementById('last-updated').innerText = `當地時間 ${timePart}`;
+                } else {
+                    const now = new Date();
+                    document.getElementById('last-updated').innerText = `更新於 ${now.toLocaleTimeString('zh-TW', {hour: '2-digit', minute:'2-digit', hour12: false})}`;
+                }
             } catch (err) {
                 console.error("Fetch Error:", err);
                 document.getElementById('current-condition').innerText = "連線失敗";
@@ -473,18 +467,16 @@
             const daily = wData.daily;
             const air = aData.current || {};
 
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const hour = String(now.getHours()).padStart(2, '0');
-            const currentHourIso = `${year}-${month}-${day}T${hour}`;
+            // 確保有資料再處理
+            if (!current || !hourly) return;
 
-            let nowIdx = hourly.time.findIndex(t => t.startsWith(currentHourIso));
-            if (nowIdx === -1) {
-                const dateIso = `${year}-${month}-${day}`;
-                nowIdx = hourly.time.findIndex(t => t.startsWith(dateIso));
-                if (nowIdx === -1) nowIdx = 0; 
+            // 時區校正：使用 API 回傳的 current.time
+            const currentLocalTimeIso = current.time; 
+            let nowIdx = 0;
+            if(currentLocalTimeIso) {
+                const currentHourKey = currentLocalTimeIso.substring(0, 13);
+                nowIdx = hourly.time.findIndex(t => t.startsWith(currentHourKey));
+                if (nowIdx === -1) nowIdx = 0;
             }
 
             updateLifeDashboard(current, hourly, daily, nowIdx);
@@ -547,12 +539,16 @@
             const todayMax = Math.round(daily.temperature_2m_max[1]);
             const tomorrowMax = Math.round(daily.temperature_2m_max[2]);
             const currentTemp = current.temperature_2m;
-            const currentHour = new Date().getHours();
+            // 嘗試解析小時，如果沒有 time 則 fallback
+            let localHour = new Date().getHours();
+            if(current.time) {
+                localHour = parseInt(current.time.split('T')[1].split(':')[0]);
+            }
 
             let text = "";
             let diff = 0;
 
-            if (currentHour < 18) {
+            if (localHour < 18) {
                 diff = todayMax - yesterdayMax;
                 if (diff > 1) text = (currentTemp < 20) ? `氣溫略回升 (+${diff}°C)，仍偏涼` : `今天比昨天熱 ${diff}°C`;
                 else if (diff < -1) text = `今天比昨天冷 ${Math.abs(diff)}°C`;
@@ -567,7 +563,7 @@
             const code = current.weather_code;
             if (code >= 95) text = "⛈️ 雷雨警報！" + text;
             else if (code >= 61) text = "🌧️ 外面有雨，" + text;
-            else if (currentTemp < 20) text += "，注意保暖 🧥";
+            else if (currentTemp < 15) text += "，注意保暖 🧥";
             else if (currentTemp > 30) text += "，注意防曬 🧴";
             else text += "，舒適宜人 ✨";
 
@@ -583,7 +579,7 @@
             else if (feel >= 24) { cIcon="👕"; cText="短袖"; }
             else if (feel >= 20) { cIcon="👔"; cText="薄長袖"; }
             else if (feel >= 15) { cIcon="🧥"; cText="夾克/帽T"; }
-            else if (feel >= 10) { cIcon="🧣"; cText="厚外套/圍巾"; }
+            else if (feel >= 10) { cIcon="🧣"; cText="厚外套"; }
             else { cIcon="🧤"; cText="羽絨/發熱衣"; }
             
             clothIconEl.innerText = cIcon;
@@ -683,16 +679,12 @@
                 item.style.width = `${ITEM_WIDTH}px`;
                 item.className = 'flex flex-col items-center flex-shrink-0 relative h-32 justify-start pt-2'; 
                 
-                // --- 降雨機率 Bar (更新版) ---
-                // 外容器：h-16 (64px) 代表 100%
-                // 內容器：百分比高度
                 item.innerHTML = `
                     <div class="text-center w-full">
                         <span class="text-[10px] opacity-50 block mb-1">${timeStr}</span>
                         <span class="text-lg block mb-1">${wInfo.icon}</span>
-                        <div class="font-bold text-sm mb-2">${temp}°</div>
                     </div>
-                    <div class="flex flex-col items-center justify-end h-16 w-1.5 bg-white/5 rounded-full overflow-hidden">
+                    <div class="flex flex-col items-center justify-end h-16 w-1.5 bg-white/5 rounded-full overflow-hidden mt-1">
                          <div class="w-full bg-blue-500 rounded-t-sm transition-all duration-500" style="height: ${pop}%;"></div>
                     </div>
                     <span class="text-[9px] mt-1 opacity-60">${pop}%</span>
@@ -702,33 +694,46 @@
 
             if(temps.length === 0) return;
 
-            const maxT = Math.max(...temps) + 2;
-            const minT = Math.min(...temps) - 2;
-            const range = maxT - minT || 10;
-            const height = 100; 
+            const maxT = Math.max(...temps);
+            const minT = Math.min(...temps);
+            const range = (maxT - minT) || 1;
+            const paddingTop = 30;
+            const paddingBottom = 10;
+            const drawingHeight = 120 - paddingTop - paddingBottom;
 
             temps.forEach((t, i) => {
                 const x = (i * ITEM_WIDTH) + (ITEM_WIDTH / 2);
-                const y = height - ((t - minT) / range) * height;
-                points.push(`${x},${y}`);
+                const normalizedT = (t - minT) / range; 
+                const y = (120 - paddingBottom) - (normalizedT * drawingHeight);
+                points.push({x, y, t});
             });
 
-            const polylinePoints = points.join(' ');
-            const areaPath = `M${ITEM_WIDTH/2},${height} L${points[0]} ` + 
-                             points.map((p,i) => i===0?'':`L${p}`).join(' ') + 
-                             ` L${points[points.length-1].split(',')[0]},${height} Z`;
+            const polylinePoints = points.map(p => `${p.x},${p.y}`).join(' ');
+            
+            const areaPath = `M${ITEM_WIDTH/2},120 L${points[0].x},${points[0].y} ` + 
+                             points.map((p,i) => i===0?'':`L${p.x},${p.y}`).join(' ') + 
+                             ` L${points[points.length-1].x},120 Z`;
+
+            const textElements = points.map(p => 
+                `<text x="${p.x}" y="${p.y - 12}" text-anchor="middle" fill="white" font-size="12" font-weight="bold" style="text-shadow: 0 1px 2px rgba(0,0,0,0.5);">${p.t}°</text>`
+            ).join('');
+
+            const dots = points.map(p => 
+                `<circle cx="${p.x}" cy="${p.y}" r="3" fill="white" stroke="rgba(255,255,255,0.2)" stroke-width="4" />`
+            ).join('');
 
             chartLayer.innerHTML = `
-                <svg width="${TOTAL_WIDTH}" height="${height}" viewBox="0 0 ${TOTAL_WIDTH} ${height}" preserveAspectRatio="none">
+                <svg width="${TOTAL_WIDTH}" height="120" viewBox="0 0 ${TOTAL_WIDTH} 120" preserveAspectRatio="none">
                     <defs>
                         <linearGradient id="chartGrad" x1="0" x2="0" y1="0" y2="1">
-                            <stop offset="0%" stop-color="white" stop-opacity="0.3"/>
+                            <stop offset="0%" stop-color="white" stop-opacity="0.2"/>
                             <stop offset="100%" stop-color="white" stop-opacity="0"/>
                         </linearGradient>
                     </defs>
                     <path d="${areaPath}" fill="url(#chartGrad)" />
                     <polyline points="${polylinePoints}" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    ${points.map((p, i) => `<circle cx="${p.split(',')[0]}" cy="${p.split(',')[1]}" r="3" fill="white" />`).join('')}
+                    ${dots}
+                    ${textElements}
                 </svg>
             `;
         }
