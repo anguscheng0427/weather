@@ -204,7 +204,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-xs font-bold opacity-50 uppercase flex items-center gap-1">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"></path></svg>
-                        空氣品質
+                        空氣品質 (AQI)
                     </h3>
                     <span id="aqi-badge" class="text-xs font-bold px-3 py-1 rounded-full bg-gray-600 text-white shadow-sm">--</span>
                 </div>
@@ -228,13 +228,13 @@
                         </div>
                     </div>
                     <div>
-                        <div class="flex justify-between text-xs opacity-70 mb-1"><span>O3 (臭氧)</span><span id="o3-val">--</span></div>
+                        <div class="flex justify-between text-xs opacity-70 mb-1"><span>臭氧 (O₃)</span><span id="o3-val">--</span></div>
                         <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
                             <div id="o3-bar" class="h-full bg-purple-400 w-0 transition-all duration-1000"></div>
                         </div>
                     </div>
                     <div>
-                        <div class="flex justify-between text-xs opacity-70 mb-1"><span>NO2</span><span id="no2-val">--</span></div>
+                        <div class="flex justify-between text-xs opacity-70 mb-1"><span>二氧化氮 (NO₂)</span><span id="no2-val">--</span></div>
                         <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
                             <div id="no2-bar" class="h-full bg-yellow-400 w-0 transition-all duration-1000"></div>
                         </div>
@@ -319,7 +319,7 @@
                 </button>
             </div>
             <div class="relative">
-                <input type="text" id="search-input" placeholder="輸入城市名稱 (例如: 台中)" 
+                <input type="text" id="search-input" placeholder="輸入城市名稱 (ex: 台北市、Taipei)" 
                     class="w-full bg-white/5 border border-white/10 text-white p-4 pl-12 rounded-2xl outline-none focus:border-blue-500 transition placeholder-gray-500 text-lg">
                 <button onclick="performSearch()" class="absolute right-3 top-3 bg-blue-600 px-4 py-1.5 rounded-xl text-sm font-bold shadow-lg shadow-blue-600/30">搜尋</button>
             </div>
