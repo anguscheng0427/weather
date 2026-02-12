@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Angus Weather</title>
+    <title>Angus Weather | 生活氣象</title>
     <meta name="description" content="天氣不是數據，而是生活！ 我們提供最直覺的生活化資訊摘要，讓你出門前一秒掌握天氣重點，輕鬆規劃每一天！">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0f172a">
@@ -72,15 +72,11 @@
     <div class="fixed top-[-20%] left-[-20%] w-[80vw] h-[80vw] bg-blue-600 rounded-full mix-blend-screen filter blur-[120px] opacity-20 pointer-events-none animate-pulse"></div>
     <div class="fixed bottom-[-20%] right-[-20%] w-[80vw] h-[80vw] bg-indigo-600 rounded-full mix-blend-screen filter blur-[120px] opacity-20 pointer-events-none"></div>
 
-    <!-- 導航列容器 -->
     <header class="sticky top-0 z-40 w-full transition-all duration-300">
-        <!-- 動態背景層 -->
         <div id="nav-backdrop" class="absolute top-0 left-0 w-full h-full bg-[#0f172a]/30 backdrop-blur-xl border-b border-white/5 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] shadow-sm origin-top"></div>
 
-        <!-- Nav 內容 -->
         <nav class="relative z-50 flex justify-between items-center px-6 py-4">
             <div class="flex flex-col relative">
-                <!-- 點擊觸發 Quick Bar -->
                 <div class="flex items-center gap-2 cursor-pointer active:scale-95 transition-transform" onclick="toggleQuickBar()">
                     <svg class="w-5 h-5 text-blue-400 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     <h1 class="text-xl font-bold tracking-wide drop-shadow-md flex items-center gap-2">
@@ -91,20 +87,17 @@
             </div>
 
             <div class="flex gap-2">
-                <!-- 星星按鈕 -->
                 <button onclick="toggleFavorites()" class="p-2 rounded-full hover:bg-white/10 transition backdrop-blur-sm" aria-label="加入最愛">
                     <svg id="fav-icon" class="w-6 h-6 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
                     </svg>
                 </button>
-                <!-- 搜尋按鈕 -->
                 <button onclick="openSearchModal()" class="p-2 rounded-full hover:bg-white/10 transition backdrop-blur-sm" aria-label="搜尋">
                     <svg class="w-6 h-6 drop-shadow-md" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                 </button>
             </div>
         </nav>
 
-        <!-- Quick Bar -->
         <div id="quick-bar" class="absolute top-[60px] left-0 w-full z-40 transition-all duration-300 transform -translate-y-2 opacity-0 pointer-events-none px-6 pt-4 pb-2">
              <div id="quick-bar-list" class="flex flex-nowrap gap-2 items-center overflow-x-auto no-scrollbar pb-1"></div>
         </div>
@@ -112,7 +105,6 @@
 
     <main class="w-full max-w-2xl mx-auto px-4 pb-32 z-10 relative mt-2" id="main-content">
         
-        <!-- 1. 當前天氣 -->
         <section class="flex flex-col items-center py-6 relative" onclick="closeQuickBar()">
             <div class="flex items-start justify-center gap-2 mt-2">
                 <div class="relative flex items-start" id="current-temp-container">
@@ -134,7 +126,6 @@
             </div>
         </section>
 
-        <!-- 2. 生活氣象摘要 -->
         <section class="mb-6">
             <div class="glass-panel rounded-3xl p-5 shadow-lg border-t border-white/20">
                 <div class="mb-5 pb-4 border-b border-white/10">
@@ -158,7 +149,7 @@
                         </div>
                     </div>
 
-                    <div id="rain-section-container" class="flex justify-center items-center h-[50px]">
+                    <div id="rain-section-container" class="flex justify-left items-center h-[50px]">
                         <div class="w-full h-full flex flex-col justify-center">
                              <div class="w-full h-6 skeleton rounded-full"></div>
                         </div>
@@ -167,7 +158,6 @@
             </div>
         </section>
 
-        <!-- 3. 24小時趨勢 -->
         <section class="mb-6">
             <div class="glass-panel rounded-3xl p-5 overflow-hidden">
                 <h3 class="text-xs font-bold opacity-50 uppercase mb-4 flex items-center gap-2">
@@ -183,7 +173,6 @@
             </div>
         </section>
 
-        <!-- 4. 未來預報 -->
         <section class="mb-6">
             <div class="glass-panel rounded-3xl p-5 flex flex-col gap-1">
                 <h3 class="text-xs font-bold opacity-50 uppercase mb-2 px-1 flex items-center gap-2">
@@ -197,14 +186,12 @@
             </div>
         </section>
 
-        <!-- 5. 其他數據 (AQI 增強 + 燈號系統 + 風速) -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <!-- AQI 卡片 -->
             <div class="glass-panel rounded-3xl p-5 col-span-1">
                 <div class="flex justify-between items-start mb-4">
                     <h3 class="text-xs font-bold opacity-50 uppercase flex items-center gap-1">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"></path></svg>
-                        空氣品質 (AQI)
+                        空氣品質
                     </h3>
                     <span id="aqi-badge" class="text-xs font-bold px-3 py-1 rounded-full bg-gray-600 text-white shadow-sm">--</span>
                 </div>
@@ -213,43 +200,43 @@
                     <span class="text-sm opacity-70 mb-1" id="aqi-status">--</span>
                 </div>
                 
-                <!-- AQI 詳細指標 -->
                 <div class="grid grid-cols-2 gap-3 mt-4">
                     <div>
                         <div class="flex justify-between text-xs opacity-70 mb-1"><span>PM2.5</span><span id="pm25-val">--</span></div>
                         <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                            <div id="pm25-bar" class="h-full bg-green-400 w-0 transition-all duration-1000"></div>
+                            <div id="pm25-bar" class="h-full bg-white/50 w-0 transition-all duration-1000"></div>
                         </div>
                     </div>
                     <div>
                         <div class="flex justify-between text-xs opacity-70 mb-1"><span>PM10</span><span id="pm10-val">--</span></div>
                         <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                            <div id="pm10-bar" class="h-full bg-blue-400 w-0 transition-all duration-1000"></div>
+                            <div id="pm10-bar" class="h-full bg-white/50 w-0 transition-all duration-1000"></div>
                         </div>
                     </div>
                     <div>
-                        <div class="flex justify-between text-xs opacity-70 mb-1"><span>O₃ (臭氧)</span><span id="o3-val">--</span></div>
+                        <div class="flex justify-between text-xs opacity-70 mb-1"><span>O3</span><span id="o3-val">--</span></div>
                         <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                            <div id="o3-bar" class="h-full bg-purple-400 w-0 transition-all duration-1000"></div>
+                            <div id="o3-bar" class="h-full bg-white/50 w-0 transition-all duration-1000"></div>
                         </div>
                     </div>
                     <div>
-                        <div class="flex justify-between text-xs opacity-70 mb-1"><span>NO₂ (二氧化氮)</span><span id="no2-val">--</span></div>
+                        <div class="flex justify-between text-xs opacity-70 mb-1"><span>NO2</span><span id="no2-val">--</span></div>
                         <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                            <div id="no2-bar" class="h-full bg-yellow-400 w-0 transition-all duration-1000"></div>
+                            <div id="no2-bar" class="h-full bg-white/50 w-0 transition-all duration-1000"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 生活指數卡片 (升級版：燈號內建文字) -->
             <div class="grid grid-cols-2 gap-4">
                 
-                <!-- 濕度 -->
                 <div class="glass-panel rounded-3xl p-4 flex flex-col justify-between h-32">
                     <div class="flex justify-between items-center">
-                        <div class="text-xs opacity-60">濕度</div>
-                        <span id="humidity-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-500 text-white shadow-sm">--</span>
+                        <div class="text-xs opacity-60 flex items-center gap-1">
+                            <svg class="w-3 h-3 opacity-80" fill="none" viewBox="0 0 20 20" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 3s-6 7-6 10.5a6 6 0 1012 0C16 10 10 3 10 3z" /></svg> 
+                            濕度
+                        </div>
+                        <span id="humidity-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/20 text-white shadow-sm">--</span>
                     </div>
                     <div class="flex items-end gap-1 mb-1">
                         <span class="text-3xl font-bold" id="humidity-val">--</span>
@@ -257,11 +244,13 @@
                     </div>
                 </div>
 
-                <!-- 紫外線 -->
                 <div class="glass-panel rounded-3xl p-4 flex flex-col justify-between h-32">
                     <div class="flex justify-between items-center">
-                        <div class="text-xs opacity-60">紫外線</div>
-                        <span id="uv-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-500 text-white shadow-sm">--</span>
+                        <div class="text-xs opacity-60 flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                            紫外線
+                        </div>
+                        <span id="uv-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/20 text-white shadow-sm">--</span>
                     </div>
                     <div class="flex items-end gap-1 mb-1">
                         <span class="text-3xl font-bold" id="uv-val">--</span>
@@ -269,11 +258,13 @@
                     </div>
                 </div>
 
-                <!-- 能見度 -->
                 <div class="glass-panel rounded-3xl p-4 flex flex-col justify-between h-32">
                     <div class="flex justify-between items-center">
-                        <div class="text-xs opacity-60">能見度</div>
-                        <span id="vis-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-500 text-white shadow-sm">--</span>
+                        <div class="text-xs opacity-60 flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            能見度
+                        </div>
+                        <span id="vis-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/20 text-white shadow-sm">--</span>
                     </div>
                     <div class="flex items-end gap-1 mb-1">
                         <span class="text-3xl font-bold" id="visibility-val">--</span>
@@ -281,11 +272,13 @@
                     </div>
                 </div>
 
-                <!-- 風速 -->
                 <div class="glass-panel rounded-3xl p-4 flex flex-col justify-between h-32">
                     <div class="flex justify-between items-center">
-                        <div class="text-xs opacity-60">風速</div>
-                        <span id="wind-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-gray-500 text-white shadow-sm">--</span>
+                        <div class="text-xs opacity-60 flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M12.8 19.6A2 2 0 1 0 14 16H2"/><path d="M17.5 8a2.5 2.5 0 1 1 2 4H2"/><path d="M9.8 4.4A2 2 0 1 1 11 8H2"/></svg>
+                            風速
+                        </div>
+                        <span id="wind-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/20 text-white shadow-sm">--</span>
                     </div>
                     <div class="flex items-end gap-1 mb-1">
                         <span class="text-3xl font-bold" id="wind-val">--</span>
@@ -296,12 +289,11 @@
         </section>
 
         <footer class="text-center opacity-40 text-xs flex flex-col gap-1 pb-4">
-            <span>Data by Open-Meteo • Angus Weather v20.5</span>
+            <span>Data by Open-Meteo • Angus Weather v21.0</span>
             <span id="last-updated">--</span>
         </footer>
     </main>
 
-    <!-- Toast -->
     <div id="toast" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none opacity-0 translate-y-full transition-all duration-300">
         <div class="bg-gray-900/90 backdrop-blur-md text-white px-5 py-2.5 rounded-full shadow-2xl border border-white/10 flex items-center gap-2">
             <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -309,7 +301,6 @@
         </div>
     </div>
 
-    <!-- Search Modal -->
     <div id="search-modal" class="fixed inset-0 bg-[#0f172a]/95 backdrop-blur-xl z-50 hidden opacity-0 transition-all duration-300 flex flex-col">
         <div class="p-6 pt-12">
             <div class="flex justify-between items-center mb-6">
@@ -319,7 +310,7 @@
                 </button>
             </div>
             <div class="relative">
-                <input type="text" id="search-input" placeholder="例如：台北市、Taipei" 
+                <input type="text" id="search-input" placeholder="例如: 台北市, Taipei" 
                     class="w-full bg-white/5 border border-white/10 text-white p-4 pl-12 rounded-2xl outline-none focus:border-blue-500 transition placeholder-gray-500 text-lg">
                 <button onclick="performSearch()" class="absolute right-3 top-3 bg-blue-600 px-4 py-1.5 rounded-xl text-sm font-bold shadow-lg shadow-blue-600/30">搜尋</button>
             </div>
@@ -508,7 +499,7 @@
 
         async function fetchWeatherData(lat, lon) {
             try {
-                // 已確認無 time 參數，安全請求
+                // 已確認無 time 參數
                 const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m,wind_direction_10m,surface_pressure,visibility&hourly=temperature_2m,weather_code,precipitation_probability,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_probability_max&timezone=auto&forecast_days=7&past_days=1`;
                 const airUrl = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${lat}&longitude=${lon}&current=us_aqi,pm10,pm2_5,nitrogen_dioxide,ozone&timezone=auto`;
 
@@ -572,7 +563,7 @@
             updateBackground(current.weather_code, current.is_day);
             renderSyncChart(hourly, nowIdx);
 
-            // --- AQI 更新 ---
+            // --- AQI 更新 (淡化色條) ---
             const aqi = air.us_aqi ?? '--';
             document.getElementById('aqi-val').innerText = aqi;
             
@@ -631,7 +622,7 @@
             renderDailyForecast(daily);
         }
 
-        // --- 狀態判斷 ---
+        // --- 狀態判斷 (常態為淡色) ---
         function getAQIStatus(aqi) {
             if(aqi == '--') return { text: '未知', color: 'bg-gray-500', desc: '-' };
             if(aqi <= 50) return { text: '良好', color: 'bg-green-500', desc: '空氣清新' };
@@ -642,12 +633,12 @@
 
         function getHumidityStatus(val) {
             if(val < 40) return { text: '乾燥', color: 'bg-yellow-500' };
-            if(val <= 70) return { text: '舒適', color: 'bg-green-500' };
+            if(val <= 70) return { text: '舒適', color: 'bg-white/20' }; // 淡化
             return { text: '潮濕', color: 'bg-blue-500' };
         }
 
         function getUVStatus(val) {
-            if(val <= 2) return { text: '低量', color: 'bg-green-500' };
+            if(val <= 2) return { text: '低量', color: 'bg-white/20' }; // 淡化
             if(val <= 5) return { text: '中量', color: 'bg-yellow-500' };
             if(val <= 7) return { text: '高量', color: 'bg-orange-500' };
             if(val <= 10) return { text: '過量', color: 'bg-red-500' };
@@ -656,7 +647,7 @@
 
         function getVisibilityStatus(meters) {
             if(meters === undefined) return { text: '--', color: 'bg-gray-500' };
-            if(meters >= 10000) return { text: '極佳', color: 'bg-green-500' };
+            if(meters >= 10000) return { text: '極佳', color: 'bg-white/20' }; // 淡化
             if(meters >= 5000) return { text: '良好', color: 'bg-blue-400' };
             if(meters >= 1000) return { text: '普通', color: 'bg-yellow-500' };
             return { text: '霧霾', color: 'bg-red-500' };
@@ -664,8 +655,8 @@
 
         function getWindStatus(speed) {
             if(speed == undefined) return { text: '--', color: 'bg-gray-500' };
-            if(speed < 5) return { text: '無風', color: 'bg-gray-400' };
-            if(speed < 12) return { text: '微風', color: 'bg-green-500' };
+            if(speed < 5) return { text: '無風', color: 'bg-white/20' }; // 淡化
+            if(speed < 12) return { text: '微風', color: 'bg-white/20' }; // 淡化
             if(speed < 29) return { text: '和風', color: 'bg-blue-400' };
             if(speed < 50) return { text: '強風', color: 'bg-yellow-500' };
             return { text: '烈風', color: 'bg-red-600' };
@@ -908,8 +899,13 @@
                        </div>`
                     : `<span class="text-xs opacity-30">${rainProb}%</span>`;
 
+                // 未來預報表格優化 (Highlight 今天)
+                const isToday = (i === 1);
+                const bgClass = isToday ? 'bg-white/10 rounded-xl' : '';
+                // 移除 hover:bg-white/5，減少間距 py-3 -> py-2
                 const row = document.createElement('div');
-                row.className = `flex justify-between items-center py-3 border-b border-white/5 last:border-0 hover:bg-white/5 px-2 rounded-lg transition ${i===0?'opacity-50':''}`;
+                row.className = `flex justify-between items-center py-2 px-2 transition ${bgClass} ${i===0?'opacity-50':''}`;
+                
                 row.innerHTML = `
                     <span class="w-16 font-medium text-sm">${dayName}</span>
                     <div class="flex items-center gap-3 flex-1 justify-start pl-2">
@@ -1059,7 +1055,7 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js');
+                navigator.serviceWorker.register('./service-worker.js');
             });
         }
     </script>
