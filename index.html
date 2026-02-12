@@ -628,7 +628,9 @@
             if(aqi <= 50) return { text: '良好', color: 'bg-green-500', desc: '空氣清新' };
             if(aqi <= 100) return { text: '普通', color: 'bg-yellow-500', desc: '尚可接受' };
             if(aqi <= 150) return { text: '不健康', color: 'bg-orange-500', desc: '敏感族群注意' };
-            return { text: '危險', color: 'bg-red-600', desc: '建議戴口罩' };
+            if(aqi <= 200) return { text: '不健康', color: 'bg-red-500', desc: '對所有族群不健康' };
+            if(aqi <= 300) return { text: '非常不健康', color: 'bg-purple-600', desc: '減少戶外活動' };
+            return { text: '危害', color: 'bg-maroon-600', desc: '強烈建議戴口罩、避免戶外活動' };
         }
 
         function getHumidityStatus(val) {
@@ -650,16 +652,17 @@
             if(meters >= 10000) return { text: '極佳', color: 'bg-white/20' }; // 淡化
             if(meters >= 5000) return { text: '良好', color: 'bg-blue-400' };
             if(meters >= 1000) return { text: '普通', color: 'bg-yellow-500' };
-            return { text: '霧霾', color: 'bg-red-500' };
+            return { text: '不佳', color: 'bg-red-500' };
         }
 
         function getWindStatus(speed) {
             if(speed == undefined) return { text: '--', color: 'bg-gray-500' };
-            if(speed < 5) return { text: '無風', color: 'bg-white/20' }; // 淡化
-            if(speed < 12) return { text: '微風', color: 'bg-white/20' }; // 淡化
-            if(speed < 29) return { text: '和風', color: 'bg-blue-400' };
-            if(speed < 50) return { text: '強風', color: 'bg-yellow-500' };
-            return { text: '烈風', color: 'bg-red-600' };
+            if(speed < 6) return { text: '無風', color: 'bg-white/20' }; // 淡化
+            if(speed < 20) return { text: '微風', color: 'bg-white/20' }; // 淡化
+            if(speed < 39) return { text: '清風', color: 'bg-blue-400' };
+            if(speed < 75) return { text: '強風', color: 'bg-yellow-500' };
+            if(speed < 103) return { text: '烈風', color: 'bg-red-600' };
+            return { text: '暴風', color: 'bg-maroon-600' };
         }
 
         function updateLifeDashboard(current, hourly, daily, nowIdx) {
@@ -685,21 +688,21 @@
 
             if (localHour < 18) {
                 diff = todayMax - yesterdayMax;
-                if (diff > 1) text = (currentTemp < 20) ? `氣溫略回升 (+${diff}°C)，仍偏涼` : `今天比昨天熱 ${diff}°C`;
-                else if (diff < -1) text = `今天比昨天冷 ${Math.abs(diff)}°C`;
+                if (diff > 1) text = (currentTemp < 20) ? `氣溫略回升 +${diff}°C，仍偏涼` : `今天比昨天高 +${diff}°C`;
+                else if (diff < -1) text = `今天比昨天低 ${Math.abs(diff)}°C`;
                 else text = `氣溫與昨天差不多`;
             } else {
                 diff = tomorrowMax - todayMax;
-                if (diff > 1) text = (currentTemp < 20) ? `明天氣溫回升 (+${diff}°C)` : `明天比今天熱 ${diff}°C`;
-                else if (diff < -1) text = `明天比今天冷 ${Math.abs(diff)}°C`;
+                if (diff > 1) text = (currentTemp < 20) ? `明天氣溫回升 +${diff}°C` : `明天比今天高 ${diff}°C`;
+                else if (diff < -1) text = `明天比今天低 ${Math.abs(diff)}°C`;
                 else text = `明天氣溫持平`;
             }
 
             const code = current.weather_code;
-            if (code >= 95) text = "⛈️ 雷雨警報！" + text;
-            else if (code >= 61) text = "🌧️ 外面有雨，" + text;
-            else if (currentTemp < 15) text += "，注意保暖 🧥";
-            else if (currentTemp > 30) text += "，注意防曬 🧴";
+            if (code >= 95) text = "⛈️ 下雨警告！" + text;
+            else if (code >= 61) text = "🌧️ 可能有雨，" + text;
+            else if (currentTemp < 16) text += "，注意保暖 🧥";
+            else if (currentTemp > 30) text += "，注意補水 🥤";
             else text += "，舒適宜人 ✨";
 
             summaryEl.innerText = text;
@@ -714,7 +717,7 @@
             else if (feel >= 24) { cIcon="👕"; cText="短袖"; }
             else if (feel >= 20) { cIcon="👔"; cText="薄長袖"; }
             else if (feel >= 15) { cIcon="🧥"; cText="夾克/帽T"; }
-            else if (feel >= 10) { cIcon="🧣"; cText="厚外套"; }
+            else if (feel >= 10) { cIcon="🧣"; cText="厚外套/圍巾"; }
             else { cIcon="🧤"; cText="羽絨/發熱衣"; }
             
             clothIconEl.innerText = cIcon;
