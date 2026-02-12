@@ -3,8 +3,7 @@ const ASSETS = [
     './',
     './index.html',
     './manifest.json',
-    'https://cdn.tailwindcss.com',
-    'https://cdn-icons-png.flaticon.com/512/4052/4052984.png'
+    'https://cdn.tailwindcss.com'
 ];
 
 self.addEventListener('install', (e) => {
